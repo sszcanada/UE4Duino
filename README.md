@@ -2,7 +2,17 @@
 
 ## Unreal Engine 4 plugin for Arduino (COM port) communication on Windows
 
-### How to use
+
+## SSZ Canada Changes
+
+- Updated to Unreal Engine 4.27
+- Modified ArduinoTypesExample.ino to recieve commands from Unreal
+
+### SSZ How to use
+See Example Project at [Insert Link Here Soon]
+
+
+### Original How to use
 
 Create a *Plugins* folder in your project directory. Place the folder UE4Duino (the one that contains Source, Resources etc) in the Plugins folder.
 
