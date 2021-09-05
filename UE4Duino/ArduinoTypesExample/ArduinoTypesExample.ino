@@ -1,5 +1,19 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+String Display = "   SSZ Canada   ";
+String Command = "";
+String str = "";
+
 void setup()
 {
+  lcd.init();
+  lcd.backlight();
+  lcd.clear();
+  Display = "Waiting 4 Unreal";
+  lcd.setCursor(0, 0);
+  lcd.print(Display);
   Serial.begin(9600);
   Serial.setTimeout(5);
 }
@@ -8,33 +22,37 @@ void loop()
 {
   if (!Serial.available()) return;
 
-  String str = Serial.readString();
+  str = Serial.readString();
   
   // command to send a float
-  if (str == "float")
+  if (str.startsWith("SSZ"))
   {
-    float fVal = 12.34f;
-    byte* fBuffer = reinterpret_cast<byte*>(&fVal);
-    Serial.write(fBuffer, 4);
-  }
+    lcd.clear();
+    Display = "Command Recieved";
+    lcd.setCursor(0, 0);
+    lcd.print(Display);
+    str.remove(0, 4);
+    Command = str;
+    lcd.setCursor(0, 1);
+    lcd.print(Command);
 
-  // command to send an integer
-  else if (str == "int")
-  {
-    long int lVal = 123456L;
-    byte lBuffer[] = {
-      byte(lVal & 0xff),
-      byte(lVal >> 8 & 0xff),
-      byte(lVal >> 16 & 0xff),
-      byte(lVal >> 24 & 0xff)
-    };
-    Serial.write(lBuffer, 4);
-  }
 
-  // command to send a line
-  else if (str == "lines")
+    delay(2000);
+    lcd.clear();
+    Display = "Waiting 4 Unreal";
+    lcd.setCursor(0, 0);
+    lcd.print(Display);
+  }
+  else
   {
-    Serial.println("This is a line.");
-    Serial.println("This is another line");
+    lcd.clear();
+    Display = "Command Failed";
+    lcd.setCursor(0, 0);
+    lcd.print(Display);
+    delay(2000);
+    lcd.clear();
+    Display = "Waiting 4 Unreal";
+    lcd.setCursor(0, 0);
+    lcd.print(Display);
   }
 }
