@@ -9,7 +9,7 @@
 - Modified ArduinoTypesExample.ino to recieve commands from Unreal
 
 ### SSZ How to use
-See Example Project at [Insert Link Here Soon]
+See Example Project at https://github.com/sszcanada/ArduinoUE4
 
 
 ### Original How to use
