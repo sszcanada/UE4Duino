@@ -1,30 +1,29 @@
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
+// Initialization
 LiquidCrystal_I2C lcd(0x27, 16, 2);
-String Display = "   SSZ Canada   ";
+String Display = "";
 String Command = "";
 String str = "";
 
 void setup()
 {
+  // Setup Display
   lcd.init();
   lcd.backlight();
-  lcd.clear();
-  Display = "Waiting 4 Unreal";
-  lcd.setCursor(0, 0);
-  lcd.print(Display);
+  ClearDisplay();
   Serial.begin(9600);
   Serial.setTimeout(5);
 }
 
 void loop()
 {
+  // Check Serial
   if (!Serial.available()) return;
-
   str = Serial.readString();
   
-  // command to send a float
+  // Recieved Command
   if (str.startsWith("SSZ"))
   {
     lcd.clear();
@@ -33,26 +32,56 @@ void loop()
     lcd.print(Display);
     str.remove(0, 4);
     Command = str;
-    lcd.setCursor(0, 1);
-    lcd.print(Command);
-
-
-    delay(2000);
-    lcd.clear();
-    Display = "Waiting 4 Unreal";
-    lcd.setCursor(0, 0);
-    lcd.print(Display);
+    VerifyCommand(Command);
+    delay(1000);
+    ClearDisplay();
   }
-  else
+}
+
+void ClearDisplay()
+{
+  lcd.clear();
+  Display = " SSZ UE4 Bridge";
+  lcd.setCursor(0, 0);
+  lcd.print(Display);
+  Display = "Waiting 4 Unreal";
+  lcd.setCursor(0, 1);
+  lcd.print(Display);
+}
+
+void InvalidCommand()
+{
+  lcd.clear();
+  Display = Command;
+  lcd.setCursor(0, 1);
+  lcd.print(Display);
+  Display = "Invalid  Command";
+  lcd.setCursor(0, 0);
+  lcd.print(Display);
+}
+
+void PrintCommand(String PrintMe)
+{
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(String("Command Recieved"));
+  Display = PrintMe;
+  lcd.setCursor(0, 1);
+  lcd.print(Display);
+
+}
+
+void VerifyCommand(String InputCommand)
+{
+  if (InputCommand == String("Left"))
   {
-    lcd.clear();
-    Display = "Command Failed";
-    lcd.setCursor(0, 0);
-    lcd.print(Display);
-    delay(2000);
-    lcd.clear();
-    Display = "Waiting 4 Unreal";
-    lcd.setCursor(0, 0);
-    lcd.print(Display);
+    PrintCommand(InputCommand);
+    return;
   }
+  if (InputCommand == String("Right")) 
+  {
+    PrintCommand(InputCommand);
+    return;
+  }
+  InvalidCommand();
 }
