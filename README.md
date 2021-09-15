@@ -11,6 +11,9 @@
 ### SSZ How to use
 See Example Project at https://github.com/sszcanada/ArduinoUE4
 
+### SSZ Example Videos
+https://www.youtube.com/watch?v=PN1RCsULvnw
+https://www.youtube.com/watch?v=hQkLE3D0CQg
 
 ### Original How to use
 
